@@ -84,7 +84,7 @@ Concatenate features
 python feature_postprocessing.py \
   --rgb ../../../data/tvseries/rgb_feat \
   --flow ../../../data/tvseries/flow_feat \
-  --dest ../../../data/tvseries/mmaction_feat
+  --dest_file ../../../data/tvseries/rgbflow_features.pkl
 ```
 
 
@@ -122,8 +122,6 @@ mmaction2
 │   ├── flow_feat
 │   │   ├── 24_ep1.npy
 │   │   ├── ...
-│   ├── mmaction_feat
-│   │   ├── 24_ep1.npy
-│   │   ├── ...
+│   ├── rgbflow_features.pkl
 
 ```
