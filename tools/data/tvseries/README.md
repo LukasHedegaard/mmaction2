@@ -51,15 +51,6 @@ More details can be found in [data_preparation](/docs/data_preparation.md)
 
 
 
-### Step 4. Generate File List for finetuning
-
-With extracted frames, you can generate video-level or clip-level lists of rawframes, which can be used for ActivityNet Finetuning.
-
-```shell
-python generate_rawframes_filelist.py
-```
-
-
 ### Step 3. Extract features with finetuned ckpts
 
 Extract RGB features
