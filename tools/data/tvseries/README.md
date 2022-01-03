@@ -93,26 +93,26 @@ mmaction2
 ├── configs
 ├── data
 │   ├── tvseries
-│   ├── videos
-│   │   ├── 24_ep1.mkv
-│   │   ├── ...
-│   ├── splits
-│   │   ├── classes.txt
-│   │   ├── GT-test.txt
-│   │   ├── GT-train.txt
-│   │   ├── GT-val.txt
-│   ├── rawframes
-│   │   ├── 24_ep1
-│   │   │   ├── img_00000.jpg
-│   │   │   ├── flow_x_00000.jpg
-│   │   │   ├── flow_y_00000.jpg
+│   │   ├── videos
+│   │   │   ├── 24_ep1.mkv
 │   │   │   ├── ...
-│   ├── rgb_feat
-│   │   ├── 24_ep1.npy
-│   │   ├── ...
-│   ├── flow_feat
-│   │   ├── 24_ep1.npy
-│   │   ├── ...
-│   ├── rgbflow_features.pkl
+│   │   ├── splits
+│   │   │   ├── classes.txt
+│   │   │   ├── GT-test.txt
+│   │   │   ├── GT-train.txt
+│   │   │   ├── GT-val.txt
+│   │   ├── rawframes
+│   │   │   ├── 24_ep1
+│   │   │   │   ├── img_00000.jpg
+│   │   │   │   ├── flow_x_00000.jpg
+│   │   │   │   ├── flow_y_00000.jpg
+│   │   │   │   ├── ...
+│   │   ├── rgb_feat
+│   │   │   ├── 24_ep1.npy
+│   │   │   ├── ...
+│   │   ├── flow_feat
+│   │   │   ├── 24_ep1.npy
+│   │   │   ├── ...
+│   │   ├── rgbflow_features.pkl
 
 ```
