@@ -22,7 +22,7 @@ def main():
 
     # Format: { "vid_name": {"rgb": feat, "flow": feat} }
     all_feat = {
-        name: {
+        name[:-4]: {  # Remove ".pkl"
             "rgb": load(osp.join(args.rgb, name)),
             "flow": load(osp.join(args.flow, name)),
         }
