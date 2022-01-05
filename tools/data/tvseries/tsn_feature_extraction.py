@@ -85,9 +85,12 @@ def main():
         test_cfg=dict(average_clips=None),
     )
     model = build_model(model_cfg)
+    # Modify model to get features prior to prediction layer instead
+    model.cls_head.fc_cls = torch.nn.Identity()
 
     # load pretrained weight into the feature extractor
     state_dict = torch.load(args.ckpt)["state_dict"]
+    state_dict = {k: v for k, v in state_dict.items() if "cls_head.fc_cls" not in k}
     model.load_state_dict(state_dict)
 
     # Modify model to get features prior to prediction layer instead
