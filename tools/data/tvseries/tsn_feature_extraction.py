@@ -11,6 +11,7 @@ import torch
 from mmaction.datasets.pipelines import Compose
 from mmaction.models import build_model
 from pathlib import Path
+from bninception import BNInception
 
 
 def parse_args():
@@ -70,28 +71,34 @@ def main():
     data_pipeline = Compose(data_pipeline)
 
     # define TSN R50 model, the model is used as the feature extractor
-    model_cfg = dict(
-        type="Recognizer2D",
-        backbone=dict(
-            type="ResNet", depth=50, in_channels=args.in_channels, norm_eval=False
-        ),
-        cls_head=dict(
-            type="TSNHead",
-            num_classes=200,
-            in_channels=2048,
-            spatial_type="avg",
-            consensus=dict(type="AvgConsensus", dim=1),
-        ),
-        test_cfg=dict(average_clips=None),
-    )
-    model = build_model(model_cfg)
+    # model_cfg = dict(
+    #     type="Recognizer2D",
+    #     backbone=dict(
+    #         type="ResNet", depth=50, in_channels=args.in_channels, norm_eval=False
+    #     ),
+    #     cls_head=dict(
+    #         type="TSNHead",
+    #         num_classes=200,
+    #         in_channels=2048,
+    #         spatial_type="avg",
+    #         consensus=dict(type="AvgConsensus", dim=1),
+    #     ),
+    #     test_cfg=dict(average_clips=None),
+    # )
+    # model = build_model(model_cfg)
+    # # Modify model to get features prior to prediction layer instead
+    # model.cls_head.fc_cls = torch.nn.Identity()
+
+    model = BNInception(in_channels=10)
 
     # load pretrained weight into the feature extractor
-    state_dict = torch.load(args.ckpt)["state_dict"]
+    state_dict = torch.load(args.ckpt)
+    state_dict = {
+        k: v.squeeze(0) for k, v in state_dict.items() if "fc_action" not in k
+    }
+    # state_dict = torch.load(args.ckpt)["state_dict"]
+    # state_dict = {k: v for k, v in state_dict.items() if "cls_head.fc_cls" not in k}
     model.load_state_dict(state_dict)
-
-    # Modify model to get features prior to prediction layer instead
-    model.cls_head.fc_cls = torch.nn.Identity()
 
     model = model.cuda()
     model.eval()
@@ -140,7 +147,7 @@ def main():
             while start_idx < num_clip:
                 with torch.no_grad():
                     part = data[start_idx : start_idx + args.batch_size]
-                    feat = model.forward(part.cuda(), return_loss=False)
+                    feat = model.forward(part.cuda().squeeze(1)).cpu()
                     results.append(feat)
                     start_idx += args.batch_size
             return np.concatenate(results)
